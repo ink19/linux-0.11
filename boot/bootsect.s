@@ -44,16 +44,24 @@ ROOT_DEV = 0x306
 
 entry _start
 _start:
+!将自身从0x07c00复制到0x90000
+!源地址 ds:si = 0x07c00
 	mov	ax,#BOOTSEG
 	mov	ds,ax
+!目的地址 es:di 0x90000
 	mov	ax,#INITSEG
 	mov	es,ax
+!重复次数
 	mov	cx,#256
 	sub	si,si
 	sub	di,di
 	rep
 	movw
+
+!跳转到新地址进行执行
 	jmpi	go,INITSEG
+
+!cs = 0x9000
 go:	mov	ax,cs
 	mov	ds,ax
 	mov	es,ax
